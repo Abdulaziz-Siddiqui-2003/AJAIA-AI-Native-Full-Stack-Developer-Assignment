@@ -109,5 +109,11 @@ mongoose.connect(process.env.MONGODB_URI).then(async () => {
     console.log('Seeded mock users');
   }
 
-  app.listen(process.env.PORT || 5000, () => console.log('Server running on port 5000'));
+  // Only listen on a port if we are NOT in Vercel's production environment
+  if (process.env.NODE_ENV !== 'production') {
+    app.listen(process.env.PORT || 5000, () => console.log('Server running on port 5000'));
+  }
 });
+
+// CRITICAL FOR VERCEL DEPLOYMENT: Export the app instance
+module.exports = app;
